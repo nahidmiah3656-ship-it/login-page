@@ -1,0 +1,939 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="robots" content="noindex, nofollow" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Se connecter à infoconnect</title>
+
+    <!-- Favicon links (placeholder) -->
+    <link rel="icon" type="image/png" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🔐%3C/text%3E%3C/svg%3E" />
+
+    <style>
+        /* ---------- Reset & Base ---------- */
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --primaryColor: #e2001a;
+            --fontColor: #ffffff;
+            --bg-body: #f5f7fa;
+            --card-bg: #ffffff;
+            --border-radius: 8px;
+            --shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+            --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            --text-color: #1a1a2e;
+            --text-muted: #6b7280;
+            --border-color: #e5e7eb;
+            --input-bg: #f9fafb;
+            --input-border: #d1d5db;
+            --input-focus: var(--primaryColor);
+            --transition: 0.2s ease;
+        }
+
+        html {
+            font-size: 16px;
+            -webkit-text-size-adjust: 100%;
+        }
+
+        body {
+            font-family: var(--font-family);
+            background: var(--bg-body);
+            color: var(--text-color);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            padding: 20px;
+            margin: 0;
+            line-height: 1.5;
+        }
+
+        /* ---------- Header ---------- */
+        .header-container {
+            width: 100%;
+            max-width: 480px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 24px;
+            padding: 0 4px;
+        }
+
+        .back-link {
+            align-self: flex-start;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            text-decoration: none;
+            margin-bottom: 16px;
+            transition: color var(--transition);
+        }
+        .back-link:hover {
+            color: var(--primaryColor);
+        }
+        .back-link i {
+            font-style: normal;
+            font-size: 1.1rem;
+            line-height: 1;
+        }
+
+        .header-logo {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+        }
+
+        .logo {
+            max-height: 44px;
+            width: auto;
+            object-fit: contain;
+        }
+
+        /* ---------- Main Card ---------- */
+        .auth-layout {
+            width: 100%;
+            max-width: 480px;
+        }
+
+        .auth-main {
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            padding: 32px 28px 28px;
+            transition: box-shadow var(--transition);
+        }
+
+        /* ---------- Tabs ---------- */
+        .su-tabs {
+            display: flex;
+            list-style: none;
+            border-bottom: 2px solid var(--border-color);
+            margin-bottom: 28px;
+            padding: 0;
+            gap: 0;
+        }
+        .su-tabs li {
+            flex: 1;
+            text-align: center;
+        }
+        .su-tabs a {
+            display: block;
+            padding: 10px 12px 12px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            text-decoration: none;
+            border-bottom: 3px solid transparent;
+            transition: color var(--transition), border-color var(--transition);
+            cursor: pointer;
+            position: relative;
+        }
+        .su-tabs a:hover {
+            color: var(--text-color);
+        }
+        .su-tabs a.su-tab-on {
+            color: var(--primaryColor);
+            border-bottom-color: var(--primaryColor);
+            font-weight: 700;
+        }
+        .su-tabs a[aria-selected="false"] {
+            color: var(--text-muted);
+            border-bottom-color: transparent;
+        }
+
+        /* ---------- Social Login ---------- */
+        .social-auth {
+            margin-bottom: 20px;
+        }
+
+        .social-links {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .social-item {
+            width: 100%;
+        }
+
+        .social-item .su-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            width: 100%;
+            padding: 12px 16px;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            text-decoration: none;
+            background: #ffffff;
+            border: 1px solid var(--border-color);
+            color: var(--text-color);
+            transition: background var(--transition), border-color var(--transition), box-shadow var(--transition);
+            cursor: pointer;
+            position: relative;
+        }
+        .social-item .su-button:hover {
+            background: #f3f4f6;
+            border-color: #c4c8cc;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+        }
+        .social-item .su-button img {
+            width: 20px;
+            height: 20px;
+            flex-shrink: 0;
+        }
+        .social-item .su-button .kc-social-provider-name {
+            font-weight: 500;
+        }
+        .social-item .su-button .kc-social-provider-name:first-of-type {
+            font-weight: 400;
+            color: var(--text-muted);
+        }
+
+        .has-tooltip {
+            position: relative;
+        }
+        .idp-tooltip {
+            display: none;
+            position: absolute;
+            bottom: calc(100% + 8px);
+            left: 50%;
+            transform: translateX(-50%);
+            background: #1f2937;
+            color: #fff;
+            padding: 10px 14px;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            line-height: 1.4;
+            max-width: 280px;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            z-index: 10;
+            white-space: normal;
+            word-break: break-word;
+        }
+        .idp-tooltip::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            border: 6px solid transparent;
+            border-top-color: #1f2937;
+        }
+        .has-tooltip:hover .idp-tooltip {
+            display: block;
+        }
+
+        /* ---------- Separator ---------- */
+        .line-separator {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 20px 0 18px;
+            position: relative;
+        }
+        .line-separator::before {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--border-color);
+        }
+        .line-separator .line-label {
+            padding: 0 16px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            background: var(--card-bg);
+        }
+
+        /* ---------- Form ---------- */
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 6px;
+            color: var(--text-color);
+        }
+
+        .form-group input[type="email"],
+        .form-group input[type="password"] {
+            width: 100%;
+            padding: 12px 14px;
+            font-size: 0.95rem;
+            font-family: var(--font-family);
+            border: 1px solid var(--input-border);
+            border-radius: 6px;
+            background: var(--input-bg);
+            color: var(--text-color);
+            transition: border-color var(--transition), box-shadow var(--transition);
+            outline: none;
+        }
+        .form-group input[type="email"]:focus,
+        .form-group input[type="password"]:focus {
+            border-color: var(--input-focus);
+            box-shadow: 0 0 0 3px rgba(226, 0, 26, 0.12);
+            background: #ffffff;
+        }
+        .form-group input[type="email"]::placeholder,
+        .form-group input[type="password"]::placeholder {
+            color: #9ca3af;
+        }
+
+        .su-password {
+            position: relative;
+        }
+        .su-password .su-input-actions-area {
+            position: absolute;
+            right: 6px;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            align-items: center;
+        }
+        .su-password-toggle {
+            background: none;
+            border: none;
+            padding: 6px 10px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            border-radius: 4px;
+            transition: background var(--transition), color var(--transition);
+            font-family: var(--font-family);
+        }
+        .su-password-toggle:hover {
+            background: #f3f4f6;
+            color: var(--text-color);
+        }
+        .su-password-toggle i {
+            font-style: normal;
+        }
+
+        .kc-resetpwd {
+            display: block;
+            text-align: right;
+            margin-top: 8px;
+        }
+        .kc-resetpwd a {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: color var(--transition);
+        }
+        .kc-resetpwd a:hover {
+            color: var(--primaryColor);
+            text-decoration: underline;
+        }
+
+        /* ---------- Buttons ---------- */
+        .su-button {
+            display: inline-block;
+            padding: 12px 20px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            font-family: var(--font-family);
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            text-decoration: none;
+            text-align: center;
+            transition: background var(--transition), transform var(--transition), box-shadow var(--transition);
+            width: 100%;
+            letter-spacing: 0.3px;
+        }
+        .su-button:active {
+            transform: scale(0.98);
+        }
+
+        .su-primary {
+            background: var(--primaryColor);
+            color: #ffffff;
+        }
+        .su-primary:hover {
+            background: #c40017;
+            box-shadow: 0 4px 14px rgba(226, 0, 26, 0.25);
+        }
+
+        .su-secondary {
+            background: #ffffff;
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+        }
+        .su-secondary:hover {
+            background: #f3f4f6;
+            border-color: #c4c8cc;
+        }
+
+        .su-fullwidth {
+            width: 100%;
+        }
+        .su-margin-top-xs {
+            margin-top: 6px;
+        }
+        .su-margin-top-s {
+            margin-top: 10px;
+        }
+        .su-margin-top-l {
+            margin-top: 24px;
+        }
+        .su-margin-bottom-s {
+            margin-bottom: 10px;
+        }
+        .su-margin-bottom-m {
+            margin-bottom: 18px;
+        }
+        .su-margin-bottom-l {
+            margin-bottom: 24px;
+        }
+        .su-text-center {
+            text-align: center;
+        }
+        .su-text-right {
+            text-align: right;
+        }
+        .su-text-small {
+            font-size: 0.8rem;
+        }
+        .su-block {
+            display: block;
+        }
+        .su-hidden {
+            display: none !important;
+        }
+
+        /* ---------- Footer ---------- */
+        .footer-container {
+            margin-top: 28px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border-color);
+            text-align: center;
+        }
+
+        .logo-infoconnect {
+            max-width: 180px;
+            height: auto;
+            margin-bottom: 10px;
+        }
+
+        .footer-message p {
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            margin-bottom: 4px;
+        }
+
+        .footer-message a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.8rem;
+            transition: color var(--transition);
+        }
+        .footer-message a:hover {
+            color: var(--primaryColor);
+            text-decoration: underline;
+        }
+
+        /* ---------- Responsive ---------- */
+        @media (max-width: 520px) {
+            body {
+                padding: 12px;
+            }
+            .auth-main {
+                padding: 24px 16px 20px;
+            }
+            .header-container {
+                padding: 0 2px;
+            }
+            .su-tabs a {
+                font-size: 0.85rem;
+                padding: 8px 8px 10px;
+            }
+            .social-item .su-button {
+                padding: 10px 12px;
+                font-size: 0.82rem;
+            }
+            .social-item .su-button img {
+                width: 18px;
+                height: 18px;
+            }
+            .form-group input[type="email"],
+            .form-group input[type="password"] {
+                padding: 10px 12px;
+                font-size: 0.9rem;
+            }
+            .su-button {
+                padding: 10px 16px;
+                font-size: 0.9rem;
+            }
+            .logo-infoconnect {
+                max-width: 150px;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .auth-main {
+                padding: 18px 12px 16px;
+            }
+            .social-item .su-button {
+                flex-wrap: wrap;
+                gap: 4px;
+                justify-content: center;
+            }
+            .social-item .su-button .kc-social-provider-name {
+                display: inline;
+            }
+            .social-item .su-button .kc-social-provider-name:first-of-type {
+                display: none;
+            }
+        }
+
+        /* ---------- Dark mode support (basic) ---------- */
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg-body: #111827;
+                --card-bg: #1f2937;
+                --text-color: #f3f4f6;
+                --text-muted: #9ca3af;
+                --border-color: #374151;
+                --input-bg: #2d3748;
+                --input-border: #4b5563;
+                --shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+            }
+            .social-item .su-button {
+                background: #2d3748;
+                border-color: #4b5563;
+                color: #f3f4f6;
+            }
+            .social-item .su-button:hover {
+                background: #374151;
+            }
+            .su-secondary {
+                background: #2d3748;
+                border-color: #4b5563;
+                color: #f3f4f6;
+            }
+            .su-secondary:hover {
+                background: #374151;
+                border-color: #6b7280;
+            }
+            .form-group input[type="email"],
+            .form-group input[type="password"] {
+                background: #2d3748;
+                border-color: #4b5563;
+                color: #f3f4f6;
+            }
+            .form-group input[type="email"]:focus,
+            .form-group input[type="password"]:focus {
+                background: #1f2937;
+                border-color: var(--primaryColor);
+                box-shadow: 0 0 0 3px rgba(226, 0, 26, 0.2);
+            }
+            .line-separator .line-label {
+                background: var(--card-bg);
+            }
+            .su-tabs a.su-tab-on {
+                color: #ff4d66;
+            }
+            .su-tabs {
+                border-bottom-color: #374151;
+            }
+            .kc-resetpwd a {
+                color: #9ca3af;
+            }
+            .kc-resetpwd a:hover {
+                color: #ff4d66;
+            }
+            .footer-message a {
+                color: #9ca3af;
+            }
+            .footer-message a:hover {
+                color: #ff4d66;
+            }
+            .back-link {
+                color: #9ca3af;
+            }
+            .back-link:hover {
+                color: #ff4d66;
+            }
+            .idp-tooltip {
+                background: #374151;
+                color: #f3f4f6;
+            }
+            .idp-tooltip::after {
+                border-top-color: #374151;
+            }
+        }
+
+        /* ---------- Utility: focus-visible ---------- */
+        a:focus-visible,
+        button:focus-visible,
+        input:focus-visible {
+            outline: 2px solid var(--primaryColor);
+            outline-offset: 2px;
+        }
+
+        /* ---------- Disabled state for buttons (demo) ---------- */
+        .su-disabled {
+            opacity: 0.6;
+            pointer-events: none;
+            cursor: default;
+        }
+
+        /* ---------- Tooltip helper for mobile ---------- */
+        @media (hover: none) {
+            .idp-tooltip {
+                display: none !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ===== HEADER ===== -->
+    <header class="header-container">
+        <a href="#" class="back-link" data-testid="back" data-trk-link="Retour sur le site">
+            <i>←</i>
+            <span>Retour sur le site</span>
+        </a>
+        <div class="header-logo">
+            <img
+            src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 80'%3E%3Crect width='400' height='80' fill='%23e2001a' rx='4'/%3E%3Ctext x='20' y='52' font-family='Arial, sans-serif' font-size='32' font-weight='bold' fill='white'%3EGroupe Ouest-France%3C/text%3E%3C/svg%3E"
+            alt="logo groupe ouest-france"
+            id="logo-entite"
+            class="logo"
+            />
+        </div>
+    </header>
+
+    <!-- ===== MAIN ===== -->
+    <main class="auth-layout">
+        <div class="auth-main">
+
+            <!-- Tabs -->
+            <nav aria-label="Menu de navigation">
+                <ul class="su-tabs" role="tablist" aria-label="Onglets de navigation">
+                    <li>
+                        <a role="tab" aria-selected="true" class="su-tab-on" id="login-tab" data-testid="login-tab" data-trk-link="Connexion" href="#">
+                            Connexion
+                        </a>
+                    </li>
+                    <li>
+                        <a role="tab" aria-selected="false" id="registration-tab" data-testid="register-tab" data-trk-link="Inscription" href="#">
+                            Inscription
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+
+            <h1 class="su-hidden">Connexion</h1>
+
+            <!-- Social providers -->
+            <div id="kc-social-providers" class="social-auth su-text-center">
+                <ul class="social-links">
+                    <!-- Google -->
+                    <li class="social-item">
+                        <a data-once-link data-disabled-class="su-disabled" id="social-google"
+                        aria-label="Se connecter avec Google"
+                        class="su-button su-secondary su-fullwidth btn-social-idp"
+                        href="#" role="button">
+                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cpath fill='%23EA4335' d='M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z'/%3E%3Cpath fill='%234285F4' d='M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z'/%3E%3Cpath fill='%23FBBC05' d='M10.53 28.59A14.5 14.5 0 019.5 24c0-1.59.28-3.14.76-4.59l-7.98-6.19A23.99 23.99 0 000 24c0 3.77.87 7.35 2.56 10.56l7.97-5.97z'/%3E%3Cpath fill='%2334A853' d='M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 5.97C6.51 42.62 14.62 48 24 48z'/%3E%3C/svg%3E"
+                        alt="Google" />
+                        <span class="kc-social-provider-name">Se connecter avec</span>
+                        <span class="kc-social-provider-name">Google</span>
+                    </a>
+                </li>
+                <!-- Apple -->
+                <li class="social-item">
+                    <a data-once-link data-disabled-class="su-disabled" id="social-apple"
+                    aria-label="Se connecter avec Apple"
+                    class="su-button su-secondary su-fullwidth btn-social-idp"
+                    href="#" role="button">
+                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17.36 3 13.5 4.91 10.76c.96-1.4 2.52-2.18 4.05-2.18 1.52 0 2.47.84 3.72.84 1.24 0 2-.84 3.77-.84 1.3 0 2.72.58 3.62 1.59-3.2 1.93-2.67 6.82.64 8.33zM14.73 5.5c.73-.87 1.27-2.08 1.09-3.31-1.07.07-2.38.74-3.15 1.63-.69.78-1.28 2.02-1.08 3.2 1.16.06 2.36-.62 3.14-1.52z' fill='%23000'/%3E%3C/svg%3E"
+                    alt="Apple" />
+                    <span class="kc-social-provider-name">Se connecter avec</span>
+                    <span class="kc-social-provider-name">Apple</span>
+                </a>
+            </li>
+            <!-- Bconnect -->
+            <li class="social-item has-tooltip">
+                <a data-once-link data-disabled-class="su-disabled" id="social-bconnect"
+                aria-label="Se connecter avec Bconnect"
+                aria-describedby="tooltip-bconnect"
+                class="su-button su-secondary su-fullwidth btn-social-idp"
+                href="#" role="button">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Ccircle cx='12' cy='12' r='10' fill='%231a73e8'/%3E%3Ctext x='12' y='17' font-family='Arial' font-size='12' font-weight='bold' fill='white' text-anchor='middle'%3Eb%3C/text%3E%3C/svg%3E"
+                alt="b.connect" />
+                <span class="kc-social-provider-name">Se connecter avec</span>
+                <span class="kc-social-provider-name">b.connect</span>
+            </a>
+            <span id="tooltip-bconnect" role="tooltip" class="idp-tooltip">
+                b.connect est une solution d'authentification française gratuite pour fluidifier et sécuriser vos connexions sur internet sans mot de passe
+            </span>
+        </li>
+    </ul>
+</div>
+
+<!-- Separator "Ou" -->
+<div class="line-separator">
+    <div class="line-label">Ou</div>
+</div>
+
+<!-- Login Form -->
+<div id="kc-form">
+    <div id="kc-form-wrapper">
+        <form id="kc-form-login" action="#" method="post">
+
+            <!-- Email -->
+            <div class="form-group su-margin-bottom-m">
+                <label for="username">Adresse e-mail</label>
+                <input id="username" name="username" type="email" autocomplete="email"
+                placeholder="exemple@email.fr" autofocus required />
+            </div>
+
+            <!-- Password -->
+            <div class="form-group su-margin-bottom-m">
+                <label for="password">Mot de passe</label>
+                <div class="su-password su-input-actions-1">
+                    <input id="password" name="password" type="password"
+                    autocomplete="current-password" placeholder="••••••••" />
+                    <div class="su-input-actions-area">
+                        <button type="button" class="su-input-action su-password-toggle"
+                        aria-label="montrer – Afficher le mot de passe"
+                        aria-pressed="false">
+                        <i>👁</i>
+                    </button>
+                </div>
+            </div>
+            <div aria-live="polite">
+                <span class="kc-resetpwd su-block su-text-right su-margin-top-s">
+                    <a id="resetPassword" data-trk-link="Mot de passe oublié ?" href="#">
+                        Mot de passe oublié ?
+                    </a>
+                </span>
+            </div>
+        </div>
+
+        <!-- Hidden remember-me (kept for compatibility) -->
+        <div class="su-hidden">
+            <div class="su-hidden">
+                <label for="rememberMe" class="su-label-checkbox">
+                    <input class="su-input-checkbox" type="checkbox" id="rememberMe" name="rememberMe" checked />
+                    <span>Rester connecté(e)</span>
+                </label>
+            </div>
+        </div>
+
+        <input type="hidden" id="id-hidden-input" name="credentialId" />
+
+        <!-- Login button -->
+        <div id="kc-form-buttons" class="form-group su-margin-bottom-s">
+            <input class="su-button su-primary su-fullwidth btn-lg su-margin-top-xs"
+            name="login" id="kc-login" type="submit" value="Se connecter"
+            aria-label="Se connecter" data-trk-button="Se connecter" />
+        </div>
+
+        <!-- Separator "Ou" (second) -->
+        <div class="line-separator su-margin-top-l su-margin-bottom-l">
+            <div class="line-label">Ou</div>
+        </div>
+
+        <!-- One-click login -->
+        <div id="kc-form-buttons" class="form-group su-margin-bottom-s">
+            <input onclick="fillAndSubmit('9f2c105d-0add-4db0-afcf-7d85f249037c')"
+            class="su-button su-secondary su-fullwidth"
+            id="kc-login-magic-link" type="button" value="Se connecter en un clic"
+            aria-label="Se connecter en un clic"
+            data-trk-link="Se connecter en un clic" />
+        </div>
+
+        <input type="hidden" id="authexec-hidden-input" name="authenticationExecution" />
+    </form>
+</div>
+</div>
+
+<!-- Footer -->
+<div class="footer-container">
+    <div class="su-text-center">
+        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 220 50'%3E%3Crect width='220' height='50' fill='%23e2001a' rx='4'/%3E%3Ctext x='12' y='33' font-family='Arial, sans-serif' font-size='22' font-weight='bold' fill='white'%3Einfoconnect%3C/text%3E%3C/svg%3E"
+        alt="logo Infoconnect" id="logo-infoconnect" class="logo-infoconnect logo"
+        fetchpriority="high" width="220" height="50" />
+        <div class="su-text-center footer-message">
+            <p class="su-text-small">Un compte unique pour accéder à vos plateformes en ligne.</p>
+            <a href="https://www.infoconnect.fr" class="su-link-light su-text-small su-padding-m"
+            target="_blank" data-trk-link="lien-site-vitrine-footer"
+            aria-label="Lien En savoir plus">En savoir plus</a>
+        </div>
+    </div>
+</div>
+
+</div>
+</main>
+
+<!-- ===== SCRIPTS ===== -->
+<script>
+    /**
+     * Password toggle (show/hide)
+     */
+    document.querySelectorAll('.su-password-toggle').forEach(function(btn) {
+        btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            var container = this.closest('.su-password');
+            var input = container.querySelector('input[type="password"], input[type="text"]');
+            if (!input) return;
+            var isPassword = input.type === 'password';
+            input.type = isPassword ? 'text' : 'password';
+            this.setAttribute('aria-pressed', isPassword ? 'true' : 'false');
+            this.setAttribute('aria-label', isPassword ? 'cacher – Masquer le mot de passe' :
+                'montrer – Afficher le mot de passe');
+            // change icon
+            var icon = this.querySelector('i');
+            if (icon) {
+                icon.textContent = isPassword ? '🙈' : '👁';
+            }
+        });
+    });
+
+    /**
+     * fillAndSubmit – simulates the one-click login flow
+     */
+    function fillAndSubmit(authExecId) {
+        var hiddenInput = document.getElementById('authexec-hidden-input');
+        if (hiddenInput) {
+            hiddenInput.value = authExecId;
+        }
+        var form = document.getElementById('kc-form-login');
+        if (form) {
+            // Simulate a submission for demo purposes
+            alert('🔐 Simulation : connexion en un clic avec l\'ID "' + authExecId + '"\n' +
+                '(Dans un environnement réel, le formulaire serait soumis.)');
+            // In a real implementation, you would call form.submit() here.
+            // form.submit();
+        }
+    }
+
+    /**
+     * Tab switching (purely visual demo)
+     */
+    document.querySelectorAll('.su-tabs a[role="tab"]').forEach(function(tab) {
+        tab.addEventListener('click', function(e) {
+            e.preventDefault();
+            var parent = this.closest('.su-tabs');
+            if (!parent) return;
+            // Remove active state from all tabs in this group
+            parent.querySelectorAll('a[role="tab"]').forEach(function(t) {
+                t.setAttribute('aria-selected', 'false');
+                t.classList.remove('su-tab-on');
+            });
+            // Set active on clicked tab
+            this.setAttribute('aria-selected', 'true');
+            this.classList.add('su-tab-on');
+
+            // Show a simple message
+            var tabName = this.textContent.trim();
+            alert('🔄 Onglet "' + tabName + '" sélectionné (démonstration visuelle)');
+        });
+    });
+
+    /**
+     * Disable "once-link" buttons after click (simulate)
+     */
+    document.querySelectorAll('[data-once-link]').forEach(function(el) {
+        el.addEventListener('click', function(e) {
+            var disabledClass = this.getAttribute('data-disabled-class');
+            if (disabledClass) {
+                var classes = disabledClass.split(/\s+/);
+                classes.forEach(function(cls) {
+                    if (cls) el.classList.add(cls);
+                });
+            }
+            this.setAttribute('role', 'link');
+            this.setAttribute('aria-disabled', 'true');
+            // Prevent actual navigation for demo
+            e.preventDefault();
+            alert('🔗 Simulation : connexion via ' + (this.id || 'un fournisseur') +
+                '\n(Lien désactivé après clic pour la démonstration)');
+        });
+    });
+
+    /**
+     * Forgot password link – demo
+     */
+    document.getElementById('resetPassword')?.addEventListener('click', function(e) {
+        e.preventDefault();
+        alert('📧 Simulation : réinitialisation du mot de passe.\n' +
+            'Un email serait envoyé à l\'adresse renseignée.');
+    });
+
+    /**
+     * Form submission – demo
+     */
+    document.getElementById('kc-form-login')?.addEventListener('submit', function(e) {
+        e.preventDefault();
+        var email = document.getElementById('username')?.value || '';
+        var pwd = document.getElementById('password')?.value || '';
+        alert('✅ Simulation de connexion avec :\n' +
+            '📧 ' + email + '\n' +
+            '🔒 ' + (pwd ? '••••••••' : '(vide)') +
+            '\n\n(Dans un environnement réel, les identifiants seraient vérifiés.)');
+    });
+
+    /**
+     * Back link – demo
+     */
+    document.querySelector('.back-link')?.addEventListener('click', function(e) {
+        e.preventDefault();
+        alert('🔙 Retour vers le site (simulation)');
+    });
+
+    /**
+     * Tooltip behavior for Bconnect – already handled by CSS hover.
+     * On touch devices we add a tap toggling fallback.
+     */
+    if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
+        document.querySelectorAll('.has-tooltip').forEach(function(container) {
+            var tooltip = container.querySelector('.idp-tooltip');
+            if (!tooltip) return;
+            container.addEventListener('click', function(e) {
+                // If the click is on the tooltip itself or its parent, toggle visibility
+                if (e.target.closest('.su-button')) {
+                    e.preventDefault();
+                    var isVisible = tooltip.style.display === 'block';
+                    tooltip.style.display = isVisible ? 'none' : 'block';
+                }
+            });
+            // Hide tooltip when tapping elsewhere
+            document.addEventListener('click', function(e) {
+                if (!container.contains(e.target)) {
+                    tooltip.style.display = 'none';
+                }
+            });
+        });
+    }
+
+    console.log('🔐 Page de connexion infoconnect – Démo interactive');
+</script>
+
+</body>
+</html>
